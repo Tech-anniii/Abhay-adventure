@@ -11,7 +11,7 @@
   "dependencies": {
     "framer-motion": "^12.4.2",
     "mongoose": "^8.8.3",
-    "next": "^15.1.7",
+    "next": "15.1.11",
     "nodemailer": "^7.0.3",
     "razorpay": "^2.9.6",
     "react": "^19.0.0",
