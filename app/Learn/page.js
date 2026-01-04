@@ -15,7 +15,7 @@ const LearnToFlyPage = () => {
   <div className="space-y-8">
     <h2 className="text-4xl font-bold mb-4">Become a Certified Paramotor Pilot</h2>
     <p className="text-lg text-gray-600">
-      Our paramotoring course is designed to teach you everything you need to know about powered paragliding, from the basics to advanced techniques. Whether you're a complete beginner or looking to refine your flying skills, our certified instructors will guide you step by step.
+      Our paramotoring course is designed to teach you everything you need to know about powered paragliding, from the basics to advanced techniques. Whether you&apos;re a complete beginner or looking to refine your flying skills, our certified instructors will guide you step by step.
     </p>
     <p className="text-lg text-gray-600">
       Learn how to safely take off, navigate, and land, while gaining confidence in controlling the paramotor under various conditions.
@@ -98,7 +98,7 @@ const LearnToFlyPage = () => {
           <div className="space-y-6">
             {/* Pricing Card */}
             <div className="bg-gray-50 p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-2">Beginner's Course</h3>
+              <h3 className="text-xl font-semibold mb-2">Beginner&apos;s Course</h3>
               <p className="text-lg text-gray-600">Perfect for beginners with no prior experience.</p>
               <div className="mt-4">
                 <span className="text-3xl font-bold text-blue-600">$1500</span>

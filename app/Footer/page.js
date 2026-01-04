@@ -55,7 +55,7 @@ export default function Footer() {
         {/* Footer Bottom */}
         <div className="mt-8 border-t border-gray-700 pt-4 text-sm text-center">
           <p>&copy; 2025 Abhay Adventures. All rights reserved.</p>
-          <p className="text-green-600">Designed by Aniket Singh</p>
+          <p className="text-green-600">Designed by Tech_Annii</p>
         </div>
       </div>
     </footer>

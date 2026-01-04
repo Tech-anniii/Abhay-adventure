@@ -1,9 +1,17 @@
 "use client";
-import { useState, useEffect } from 'react';
-import { FaCheckCircle, FaStar, FaMapMarkerAlt, FaPhone, FaEnvelope, FaFacebook, FaInstagram, FaYoutube, FaGoogle, FaWhatsapp } from "react-icons/fa";
+import { useMemo, useState } from "react";
+import {
+  FaCheckCircle,
+  FaEnvelope,
+  FaFacebook,
+  FaInstagram,
+  FaMapMarkerAlt,
+  FaPhone,
+  FaStar,
+  FaYoutube,
+} from "react-icons/fa";
 import { motion } from "framer-motion";
-import Link from 'next/link';
-
+import Link from "next/link";
 import Image from "next/image";
 
 const initialReviews = [
@@ -53,10 +61,6 @@ const packages = [
   },
 ];
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
 export default function Home() {
   const [reviews, setReviews] = useState(initialReviews);
   const [newReview, setNewReview] = useState({
@@ -65,23 +69,78 @@ export default function Home() {
     comment: "",
     image: "", // You can choose to let users upload an image in the future
   });
-  const [animate, setAnimate] = useState(false);
+  const easing = [0.22, 1, 0.36, 1];
 
-  useEffect(() => {
-    setTimeout(() => {
-      setAnimate(true);
-    }, 200); // Delay animation after page load
-  }, []);
+  const heroContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.12, delayChildren: 0.12 },
+    },
+  };
+
+  const heroItem = {
+    hidden: { opacity: 0, y: 18, filter: "blur(6px)" },
+    show: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { duration: 0.7, ease: easing },
+    },
+  };
+
+  const sectionContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.06 },
+    },
+  };
+
+  const sectionItem = {
+    hidden: { opacity: 0, y: 18 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: easing } },
+  };
+
+  const whyChooseUs = useMemo(
+    () => [
+      {
+        title: "Unique Experience",
+        description:
+          "We offer a one-of-a-kind paramotoring adventure that will give you a memorable and thrilling experience.",
+        image: "/images/land.png",
+      },
+      {
+        title: "Safety Measures",
+        description:
+          "Safety is our top priority. We follow the highest standards to ensure a safe and secure flight.",
+        image: "/images/land.png",
+      },
+      {
+        title: "Experienced Pilots",
+        description:
+          "Our experienced and certified pilots will guide you throughout the journey, ensuring both safety and fun.",
+        image: "/images/land.png",
+      },
+      {
+        title: "Scenic Views",
+        description:
+          "Experience breathtaking panoramic views as you glide above the beautiful landscapes of Udaipur.",
+        image: "/images/land.png",
+      },
+    ],
+    []
+  );
 
   const handleReviewSubmit = (e) => {
     e.preventDefault();
 
-    // Set a default image if no image is provided
-    if (!newReview.image) {
-      newReview.image = "/default-avatar.jpg"; // Add a placeholder image in your public folder
-    }
+    const normalizedReview = {
+      ...newReview,
+      image: newReview.image || "/default-avatar.jpg",
+    };
 
-    setReviews([newReview, ...reviews]);
+    setReviews([normalizedReview, ...reviews]);
     setNewReview({ name: "", rating: 0, comment: "", image: "" });
   };
 
@@ -90,9 +149,9 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className="bg-white">
       <section>
-        <div className="relative w-full h-screen overflow-hidden">
+        <div className="relative w-full h-[92vh] sm:h-screen overflow-hidden">
           {/* Video Background */}
           <video
             className="absolute top-0 left-0 w-full h-full object-cover"
@@ -106,151 +165,116 @@ export default function Home() {
           </video>
 
           {/* Overlay Content */}
-          <div className="absolute inset-0 bg-black opacity-40"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/70" />
+          <div className="pointer-events-none absolute -left-24 top-24 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+          <div className="pointer-events-none absolute -right-24 bottom-24 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
 
           {/* Text Content with Animation */}
-          <div
-            className={`relative z-10 flex flex-col items-center justify-center h-full text-white text-center transform transition-all duration-1000 ease-out ${animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-              }`}
+          <motion.div
+            variants={heroContainer}
+            initial="hidden"
+            animate="show"
+            className="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col items-center justify-center px-4 text-center text-white sm:px-6"
           >
-            <h1
-              className={`text-4xl md:text-6xl font-bold mb-4 transform transition-all duration-1000 ${animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-                }`}
+            <motion.h1
+              variants={heroItem}
+              className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight"
             >
               LIVE LIFE ABOVE
-            </h1>
-            <p
-              className={`text-lg md:text-2xl mb-8 transform transition-all duration-1000 delay-200 ${animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-                }`}
+            </motion.h1>
+
+            <motion.p
+              variants={heroItem}
+              className="mt-4 text-base sm:text-lg md:text-2xl text-white/90 max-w-3xl"
             >
-              Explore your world from a unique 360-degree perspective when you fly
-              a Parajet paramotor
-            </p>
-            <p
-              className={`transform transition-all duration-1000 delay-300 ${animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-                }`}
-            >
+              Explore your world from a unique 360-degree perspective when you fly a Parajet paramotor
+            </motion.p>
+
+            <motion.p variants={heroItem} className="mt-2 text-sm sm:text-base text-white/70">
               Fly Over the Breathtaking Beauty of Pondicherry
-            </p>
-            <a
-              href="/Book"
-              className={`bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-6 rounded-lg transform transition-all duration-1000 delay-400 ${animate ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-                }`}
-            >
-              Get Paramotoring
-            </a>
-          </div>
+            </motion.p>
+
+            <motion.div variants={heroItem} className="mt-7 flex flex-col sm:flex-row items-center gap-3">
+              <Link
+                href="/Book"
+                className="inline-flex items-center justify-center rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-white/60"
+              >
+                Get Paramotoring
+              </Link>
+              <Link
+                href="/Gallery"
+                className="inline-flex items-center justify-center rounded-xl bg-white/10 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/20 backdrop-blur-sm transition hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/60"
+              >
+                View Gallery
+              </Link>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-green-600 mb-8">
+      <motion.section
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionContainer}
+        className="py-14 sm:py-16 bg-gray-50"
+      >
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+          <motion.h2 variants={sectionItem} className="text-3xl font-bold text-center text-green-600 mb-8">
             Why Choose Us
-          </h2>
+          </motion.h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Unique Experience */}
-            <motion.div
-              className="bg-white shadow-lg rounded-lg p-6"
-              whileHover={{ scale: 1.05 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <img
-                src="/images/land.png"
-                alt="Unique Experience"
-                className="w-full h-40 object-cover rounded-t-lg mb-4"
-              />
-              <div className="flex items-center mb-2">
-                <FaCheckCircle className="text-green-600 mr-2" />
-                <h3 className="text-lg font-semibold text-gray-700">Unique Experience</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                We offer a one-of-a-kind paramotoring adventure that will give you a memorable and thrilling experience.
-              </p>
-            </motion.div>
-
-            {/* Safety Measures */}
-            <motion.div
-              className="bg-white shadow-lg rounded-lg p-6"
-              whileHover={{ scale: 1.05 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <img
-                src="images/land.png"
-                alt="Safety Measures"
-                className="w-full h-40 object-cover rounded-t-lg mb-4"
-              />
-              <div className="flex items-center mb-2">
-                <FaCheckCircle className="text-green-600 mr-2" />
-                <h3 className="text-lg font-semibold text-gray-700">Safety Measures</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Safety is our top priority. We follow the highest standards to ensure a safe and secure flight.
-              </p>
-            </motion.div>
-
-            {/* Experienced Pilots */}
-            <motion.div
-              className="bg-white shadow-lg rounded-lg p-6"
-              whileHover={{ scale: 1.05 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <img
-                src="/images/land.png"
-                alt="Experienced Pilots"
-                className="w-full h-40 object-cover rounded-t-lg mb-4"
-              />
-              <div className="flex items-center mb-2">
-                <FaCheckCircle className="text-green-600 mr-2" />
-                <h3 className="text-lg font-semibold text-gray-700">Experienced Pilots</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Our experienced and certified pilots will guide you throughout the journey, ensuring both safety and fun.
-              </p>
-            </motion.div>
-
-            {/* Scenic Views */}
-            <motion.div
-              className="bg-white shadow-lg rounded-lg p-6"
-              whileHover={{ scale: 1.05 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
-              <img
-                src="/images/land.png"
-                alt="Scenic Views"
-                className="w-full h-40 object-cover rounded-t-lg mb-4"
-              />
-              <div className="flex items-center mb-2">
-                <FaCheckCircle className="text-green-600 mr-2" />
-                <h3 className="text-lg font-semibold text-gray-700">Scenic Views</h3>
-              </div>
-              <p className="text-gray-600 text-sm">
-                Experience breathtaking panoramic views as you glide above the beautiful landscapes of Udaipur.
-              </p>
-            </motion.div>
+            {whyChooseUs.map((card) => (
+              <motion.div
+                key={card.title}
+                variants={sectionItem}
+                className="group bg-white shadow-lg rounded-2xl overflow-hidden"
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 240, damping: 18 }}
+              >
+                <div className="relative h-44 w-full overflow-hidden">
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 25vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-70" />
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center mb-2">
+                    <FaCheckCircle className="text-green-600 mr-2" />
+                    <h3 className="text-lg font-semibold text-gray-800">{card.title}</h3>
+                  </div>
+                  <p className="text-gray-600 text-sm leading-relaxed">{card.description}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
 
-      <section className="bg-gray-400 py-12 px-4">
-        <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-8">Testimonials</h2>
+      <motion.section
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionContainer}
+        className="bg-gray-200 py-12 sm:py-14 px-4"
+      >
+        <div className="mx-auto w-full max-w-6xl">
+          <motion.h2 variants={sectionItem} className="text-3xl font-bold text-center mb-8 text-gray-900">
+            Testimonials
+          </motion.h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {reviews.map((review, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="bg-white shadow-lg p-6 rounded-lg flex flex-col md:flex-row items-center"
+                variants={sectionItem}
+                className="bg-white shadow-lg p-6 rounded-2xl flex flex-col sm:flex-row items-center"
               >
                 {/* Check if review.image exists */}
                 {review.image && (
@@ -265,7 +289,7 @@ export default function Home() {
                   </div>
                 )}
                 <div>
-                  <h3 className="text-lg font-semibold">{review.name}</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">{review.name}</h3>
                   <div className="flex space-x-1 my-2">
                     {Array(review.rating)
                       .fill()
@@ -273,20 +297,20 @@ export default function Home() {
                         <FaStar key={i} className="text-yellow-500" />
                       ))}
                   </div>
-                  <p>{review.comment}</p>
+                  <p className="text-gray-700 leading-relaxed">{review.comment}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           {/* New Review Form */}
-          <div className="mt-12">
-            <h3 className="text-xl font-semibold text-center mb-4">
+          <motion.div variants={sectionItem} className="mt-12">
+            <h3 className="text-xl font-semibold text-center mb-4 text-gray-900">
               Submit Your Review
             </h3>
             <form
               onSubmit={handleReviewSubmit}
-              className="bg-white shadow-md p-6 rounded-lg max-w-lg mx-auto"
+              className="bg-white shadow-md p-6 rounded-2xl max-w-lg mx-auto"
             >
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">Your Name</label>
@@ -296,7 +320,7 @@ export default function Home() {
                   onChange={(e) =>
                     setNewReview({ ...newReview, name: e.target.value })
                   }
-                  className="w-full border border-gray-300 rounded p-2"
+                  className="w-full border border-gray-300 rounded-xl p-3 outline-none transition focus:ring-2 focus:ring-green-500/40"
                   required
                 />
               </div>
@@ -326,92 +350,101 @@ export default function Home() {
                   onChange={(e) =>
                     setNewReview({ ...newReview, comment: e.target.value })
                   }
-                  className="w-full border border-gray-300 rounded p-2"
+                  className="w-full border border-gray-300 rounded-xl p-3 outline-none transition focus:ring-2 focus:ring-green-500/40"
                   rows="4"
                   required
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                className="w-full bg-green-600 text-white px-4 py-3 rounded-xl hover:bg-green-700 transition font-semibold"
               >
                 Submit Review
               </button>
             </form>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
 
-      <section className="bg-gradient-to-r from-blue-500 to-indigo-500 py-16 px-4">
-        <div className="container mx-auto">
-          <h2 className="text-4xl font-extrabold text-white text-center mb-12">Featured Packages</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+      <motion.section
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionContainer}
+        className="bg-gradient-to-r from-blue-600 to-indigo-600 py-14 sm:py-16 px-4"
+      >
+        <div className="mx-auto w-full max-w-6xl">
+          <motion.h2 variants={sectionItem} className="text-3xl sm:text-4xl font-extrabold text-white text-center mb-10 sm:mb-12">
+            Featured Packages
+          </motion.h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
             {packages.slice(0, 4).map((pkg, index) => (
               <motion.div
                 key={index}
-                className="bg-white shadow-lg rounded-xl overflow-hidden transform transition duration-300 hover:scale-105"
-                variants={fadeInUp}
-                initial="initial"
-                animate="animate"
-                whileHover={{ scale: 1.05 }}
+                variants={sectionItem}
+                className="group bg-white/95 shadow-lg rounded-2xl overflow-hidden"
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 240, damping: 18 }}
               >
                 <div className="relative h-60">
                   <Image
                     src={pkg.image}
                     alt={pkg.title}
                     fill
-                    rel='preload'
-                    as =  'image'
-                    className="object-cover"
-                    priority
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]"
+                    priority={index === 0}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // example sizes
-
                   />
                 </div>
                 <div className="p-6">
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">{pkg.title}</h3>
-                  <p className="text-gray-700 mb-4">{pkg.description}</p>
+                  <p className="text-gray-700 mb-4 leading-relaxed">{pkg.description}</p>
                   <div className="text-pink-600 text-lg font-semibold">{pkg.price}</div>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="w-full bg-gray-100 py-12">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center text-green-600 mb-8">
+      <motion.section
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={sectionContainer}
+        className="w-full bg-gray-100 py-12"
+      >
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+          <motion.h2 variants={sectionItem} className="text-3xl font-bold text-center text-green-600 mb-8">
             Our Location & Flying Zones
-          </h2>
+          </motion.h2>
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
             {/* Map Section */}
             <div className="w-full md:w-2/3">
               {/* Google Map Embed */}
               <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="shadow-xl rounded-lg overflow-hidden"
+                variants={sectionItem}
+                className="shadow-xl rounded-2xl overflow-hidden bg-white"
               >
-                <iframe
-                  className="w-full h-96 md:h-80"
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3904.482638235919!2d79.8202455!3d11.8714434!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a549fb451d9a7b1%3A0xc74b3ba2c290574d!2sAbhay%20Adventure!5e0!3m2!1sen!2sin!4v1739544585903!5m2!1sen!2sin" width="900" height="900" style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  title="Location Map"
-                  referrerPolicy="no-referrer-when-downgrade"
-                ></iframe>
+                <div className="aspect-[4/3] sm:aspect-video w-full">
+                  <iframe
+                    className="h-full w-full"
+                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3904.482638235919!2d79.8202455!3d11.8714434!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a549fb451d9a7b1%3A0xc74b3ba2c290574d!2sAbhay%20Adventure!5e0!3m2!1sen!2sin!4v1739544585903!5m2!1sen!2sin"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    title="Location Map"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
               </motion.div>
             </div>
 
             {/* Info Section */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
+              variants={sectionItem}
               className="w-full md:w-1/3 text-center md:text-left"
             >
               <h3 className="text-xl font-semibold text-gray-700 mb-4">
@@ -426,35 +459,52 @@ export default function Home() {
                 <p className="text-gray-700">Abhay Adventures, Pondicherry</p>
               </div>
               {/* Top Section: Contact Info and Social Icons */}
-              <div className="bg-gray-100 py-2 flex flex-wrap">
-                <div className="container mx-auto px-4 flex justify-between items-center">
-                  {/* Contact Info */}
-                  <div>
-                  <div className="flex items-center justify-center space-x-6 text-sm">
-                    <div className="flex items-center">
-                      <FaEnvelope className="mr-1" />
-                      <a href="mailto:info@parajet.com" className="hover:text-gray-600">abhayadventures582@gmail.com</a>
+              <div className="rounded-2xl bg-white shadow-md p-4">
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-sm text-gray-700">
+                    <div className="flex items-center justify-center md:justify-start">
+                      <FaEnvelope className="mr-2" />
+                      <a href="mailto:abhayadventures582@gmail.com" className="hover:text-gray-900">
+                        abhayadventures582@gmail.com
+                      </a>
                     </div>
-                    <div className="flex items-center">
-                      <FaPhone className="mr-1" />
-                      <a href="tel:+917014146818" className="hover:text-gray-600">+91 7014146818</a>
+                    <div className="flex items-center justify-center md:justify-start">
+                      <FaPhone className="mr-2" />
+                      <a href="tel:+917014146818" className="hover:text-gray-900">
+                        +91 7014146818
+                      </a>
                     </div>
                   </div>
 
-                  {/* Social Icons */}
-                  <div className='flex justify-center items-center space-x-6 mt-4'> 
-                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-blue-600">
-                    <FaFacebook />
-                  </a>
-                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-black">
-                    <FaInstagram />
-                  </a>
-                  <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-red-600">
-                    <FaYoutube />
-                  </a>
+                  <div className="flex justify-center md:justify-start items-center space-x-6">
+                    <a
+                      href="https://facebook.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-blue-600 transition"
+                      aria-label="Facebook"
+                    >
+                      <FaFacebook />
+                    </a>
+                    <a
+                      href="https://instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-black transition"
+                      aria-label="Instagram"
+                    >
+                      <FaInstagram />
+                    </a>
+                    <a
+                      href="https://youtube.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-red-600 transition"
+                      aria-label="YouTube"
+                    >
+                      <FaYoutube />
+                    </a>
                   </div>
-                  </div>
-
                 </div>
               </div>
 
@@ -471,7 +521,7 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

@@ -148,7 +148,7 @@ const ParamotoringPage = () => {
                     </h2>
                 </div>
                 <p className="text-base md:text-lg mb-4">
-                    Paramotoring requires proper training and knowledge. Here's how the
+                    Paramotoring requires proper training and knowledge. Here&apos;s how the
                     process typically works:
                 </p>
                 <ul className="list-disc ml-6 text-base md:text-lg space-y-2">

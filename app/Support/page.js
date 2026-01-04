@@ -80,23 +80,23 @@ const SupportPage = () => {
         <h2 className="text-3xl font-bold mb-4">Troubleshooting Tips</h2>
         <div className="space-y-6">
           <div className="p-4 bg-white rounded-md shadow-md">
-            <h3 className="text-xl font-semibold mb-2">Motor Won't Start</h3>
+            <h3 className="text-xl font-semibold mb-2">Motor Won&apos;t Start</h3>
             <p className="text-gray-600">
-              If your motor isn’t starting, check the fuel levels and spark plug. Make sure all connections are secure.
+              If your motor isn&apos;t starting, check the fuel levels and spark plug. Make sure all connections are secure.
             </p>
           </div>
 
           <div className="p-4 bg-white rounded-md shadow-md">
-            <h3 className="text-xl font-semibold mb-2">Wing Won't Inflate Properly</h3>
+            <h3 className="text-xl font-semibold mb-2">Wing Won&apos;t Inflate Properly</h3>
             <p className="text-gray-600">
-              If your wing doesn’t inflate correctly, make sure the lines aren’t tangled and that you are launching into the wind.
+              If your wing doesn&apos;t inflate correctly, make sure the lines aren&apos;t tangled and that you are launching into the wind.
             </p>
           </div>
 
           <div className="p-4 bg-white rounded-md shadow-md">
             <h3 className="text-xl font-semibold mb-2">Glider Handling Issues</h3>
             <p className="text-gray-600">
-              If the glider is hard to control, check the harness and brake settings. Adjusting the glider’s trim may also help.
+              If the glider is hard to control, check the harness and brake settings. Adjusting the glider&apos;s trim may also help.
             </p>
           </div>
         </div>
@@ -107,7 +107,7 @@ const SupportPage = () => {
         <h2 className="text-3xl font-bold mb-6">Contact Support</h2>
         {formSuccess ? (
           <div className="bg-green-100 p-4 rounded-md text-green-700">
-            Thank you for reaching out! We'll get back to you shortly.
+            Thank you for reaching out! We&apos;ll get back to you shortly.
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
