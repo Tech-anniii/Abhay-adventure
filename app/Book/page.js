@@ -15,6 +15,7 @@ const Page = () => {
     const [travellers, setTravellers] = useState(1);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
     const [isVisible, setIsVisible] = useState(false);
     const [expandedFaq, setExpandedFaq] = useState(null);
 
@@ -323,7 +324,26 @@ const Page = () => {
                         alert("Something went wrong while generating the ticket.");
                     }
                 },
-                prefill: { name, email },
+                prefill: {
+                    name,
+                    email,
+                    contact: phone || undefined,
+                    method: phone ? "upi" : undefined,
+                },
+                config: {
+                    display: {
+                        blocks: {
+                            upi: {
+                                name: "Pay via UPI",
+                                instruments: [{ method: "upi" }],
+                            },
+                        },
+                        sequence: ["block.upi"],
+                        preferences: {
+                            show_default_blocks: true,
+                        },
+                    },
+                },
                 theme: { color: "#f37254" },
             };
 
@@ -689,6 +709,16 @@ const Page = () => {
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 className="w-full p-2 border rounded"
                                             />
+                                            <input
+                                                type="tel"
+                                                placeholder="Your Phone Number"
+                                                value={phone}
+                                                onChange={(e) => setPhone(e.target.value)}
+                                                className="w-full p-2 border rounded"
+                                            />
+                                            <p className="text-xs text-gray-500 leading-relaxed">
+                                                For Razorpay test mode, UPI may open as a QR flow on desktop. Razorpay&apos;s current test IDs are success@razorpay for success and failure@razorpay for failure. If you want a manual UPI ID flow, test on mobile, or use a test card/netbanking method.
+                                            </p>
                                             <div className="flex flex-col md:flex-row items-center gap-4">
                                                 <label>Choose Date:</label>
                                                 <DatePicker
